@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - DevSpark Labs</title>
+    <script>
+        // Prevent flash of wrong theme
+        (function() {
+            const theme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="loader-wrapper">
+        <div class="loader">
+            <div class="loader-logo"><img src="images/logo.png" alt="DevSpark Labs"></div>
+            <div class="loader-text">Loading Projects...</div>
+            <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="images/logo.png" alt="DevSpark Labs">
+                <span>DevSpark Labs</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="review.html">Review</a></li>
+                <li><a href="/admin/login.html" class="admin-nav-link">Admin</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="theme-toggle">
+                    <div class="theme-toggle-track">
+                        <span class="toggle-sun">☀️</span>
+                        <span class="toggle-moon">🌙</span>
+                        <div class="toggle-stars"><span></span><span></span><span></span></div>
+                        <div class="toggle-clouds"><span></span><span></span></div>
+                    </div>
+                    <div class="toggle-thumb"></div>
+                </div>
+                <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" style="min-height: 50vh; padding-top: 150px;">
+        <div class="hero-bg"><div class="hero-bg-gradient"></div></div>
+        <div class="particles-container"></div>
+        <div style="text-align: center; position: relative; z-index: 1;">
+            <span class="section-tag">🔥 Our Projects</span>
+            <h1 class="section-title" style="font-size: 3.5rem;">Browse All <span class="highlight">Projects</span></h1>
+            <p class="section-description">Find the perfect project for your academic needs</p>
+        </div>
+    </section>
+
+    <section class="projects-section" style="padding-top: 50px;">
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="aiml">AI/ML</button>
+            <button class="filter-btn" data-filter="datascience">Data Science</button>
+            <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+            <button class="filter-btn" data-filter="cybersecurity">Cybersecurity</button>
+            <button class="filter-btn" data-filter="python">Python</button>
+            <button class="filter-btn" data-filter="mini">Mini Projects</button>
+            <button class="filter-btn" data-filter="third">3rd Year</button>
+            <button class="filter-btn" data-filter="major">Major Projects</button>
+        </div>
+        
+        <div class="projects-grid">
+            <!-- AI/ML Projects -->
+            <div class="project-card popular reveal" data-category="aiml" data-year="major">
+                <span class="project-category">AI/ML • Major Project</span>
+                <h3 class="project-title">Image Classification System</h3>
+                <p class="project-description">Deep learning based image classifier using CNN</p>
+                <div class="project-features">
+                    <span class="project-feature">CNN Model</span>
+                    <span class="project-feature">Training</span>
+                    <span class="project-feature">Web UI</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹2,999</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card popular reveal" data-category="aiml" data-year="major">
+                <span class="project-category">AI/ML • Major Project</span>
+                <h3 class="project-title">Disease Prediction System</h3>
+                <p class="project-description">Healthcare ML model for multiple diseases</p>
+                <div class="project-features">
+                    <span class="project-feature">ML Models</span>
+                    <span class="project-feature">Analysis</span>
+                    <span class="project-feature">Report</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹3,499</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="aiml" data-year="major">
+                <span class="project-category">AI/ML • Major Project</span>
+                <h3 class="project-title">Face Recognition Attendance</h3>
+                <p class="project-description">Automated attendance using face detection</p>
+                <div class="project-features">
+                    <span class="project-feature">Face Detection</span>
+                    <span class="project-feature">Database</span>
+                    <span class="project-feature">Admin</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹3,999</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="aiml" data-year="third">
+                <span class="project-category">AI/ML • 3rd Year</span>
+                <h3 class="project-title">Sentiment Analysis Tool</h3>
+                <p class="project-description">NLP based sentiment analyzer</p>
+                <div class="project-features">
+                    <span class="project-feature">NLP</span>
+                    <span class="project-feature">Web App</span>
+                    <span class="project-feature">API</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹1,999</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card popular reveal" data-category="aiml" data-year="major">
+                <span class="project-category">AI/ML • Major Project</span>
+                <h3 class="project-title">Object Detection System</h3>
+                <p class="project-description">YOLO based real-time detection</p>
+                <div class="project-features">
+                    <span class="project-feature">YOLO</span>
+                    <span class="project-feature">Real-time</span>
+                    <span class="project-feature">GUI</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹4,499</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="aiml" data-year="major">
+                <span class="project-category">AI/ML • Major Project</span>
+                <h3 class="project-title">Plant Disease Detection</h3>
+                <p class="project-description">CNN model for plant leaf diseases</p>
+                <div class="project-features">
+                    <span class="project-feature">CNN</span>
+                    <span class="project-feature">Mobile</span>
+                    <span class="project-feature">Web</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹3,299</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <!-- Data Science Projects -->
+            <div class="project-card reveal" data-category="datascience" data-year="major">
+                <span class="project-category">Data Science • Major Project</span>
+                <h3 class="project-title">Sales Data Analytics</h3>
+                <p class="project-description">Business analytics dashboard</p>
+                <div class="project-features">
+                    <span class="project-feature">Visualization</span>
+                    <span class="project-feature">Insights</span>
+                    <span class="project-feature">Dashboard</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹2,499</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="datascience" data-year="third">
+                <span class="project-category">Data Science • 3rd Year</span>
+                <h3 class="project-title">Customer Segmentation</h3>
+                <p class="project-description">ML based customer clustering</p>
+                <div class="project-features">
+                    <span class="project-feature">K-Means</span>
+                    <span class="project-feature">Visualization</span>
+                    <span class="project-feature">Report</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹1,799</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card popular reveal" data-category="datascience" data-year="major">
+                <span class="project-category">Data Science • Major Project</span>
+                <h3 class="project-title">Stock Price Prediction</h3>
+                <p class="project-description">Time series forecasting with LSTM</p>
+                <div class="project-features">
+                    <span class="project-feature">LSTM</span>
+                    <span class="project-feature">Charts</span>
+                    <span class="project-feature">Prediction</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹2,999</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <!-- Full Stack Projects -->
+            <div class="project-card reveal" data-category="fullstack" data-year="mini">
+                <span class="project-category">Full Stack • Mini Project</span>
+                <h3 class="project-title">Portfolio Website</h3>
+                <p class="project-description">Personal portfolio with animations</p>
+                <div class="project-features">
+                    <span class="project-feature">Responsive</span>
+                    <span class="project-feature">Animations</span>
+                    <span class="project-feature">SEO</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹999</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card popular reveal" data-category="fullstack" data-year="major">
+                <span class="project-category">Full Stack • Major Project</span>
+                <h3 class="project-title">E-Commerce Platform</h3>
+                <p class="project-description">Complete shopping website</p>
+                <div class="project-features">
+                    <span class="project-feature">Payment</span>
+                    <span class="project-feature">Admin</span>
+                    <span class="project-feature">Cart</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹3,999</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="fullstack" data-year="third">
+                <span class="project-category">Full Stack • 3rd Year</span>
+                <h3 class="project-title">Blog Application</h3>
+                <p class="project-description">MERN stack blog platform</p>
+                <div class="project-features">
+                    <span class="project-feature">CRUD</span>
+                    <span class="project-feature">Auth</span>
+                    <span class="project-feature">Comments</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹1,499</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="fullstack" data-year="mini">
+                <span class="project-category">Full Stack • Mini Project</span>
+                <h3 class="project-title">Task Management App</h3>
+                <p class="project-description">React based todo application</p>
+                <div class="project-features">
+                    <span class="project-feature">React</span>
+                    <span class="project-feature">Modern UI</span>
+                    <span class="project-feature">Responsive</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹799</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <!-- Cybersecurity & Python Projects -->
+            <div class="project-card reveal" data-category="cybersecurity" data-year="major">
+                <span class="project-category">Cybersecurity • Major Project</span>
+                <h3 class="project-title">Network Scanner Tool</h3>
+                <p class="project-description">Python based network analyzer</p>
+                <div class="project-features">
+                    <span class="project-feature">Port Scan</span>
+                    <span class="project-feature">Vulnerability</span>
+                    <span class="project-feature">GUI</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹2,999</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="cybersecurity" data-year="third">
+                <span class="project-category">Cybersecurity • 3rd Year</span>
+                <h3 class="project-title">Password Manager</h3>
+                <p class="project-description">Encrypted password storage</p>
+                <div class="project-features">
+                    <span class="project-feature">Encryption</span>
+                    <span class="project-feature">Generator</span>
+                    <span class="project-feature">Secure</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹1,799</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="python" data-year="mini">
+                <span class="project-category">Python • Mini Project</span>
+                <h3 class="project-title">Web Scraper Bot</h3>
+                <p class="project-description">Automated data extraction</p>
+                <div class="project-features">
+                    <span class="project-feature">BeautifulSoup</span>
+                    <span class="project-feature">Export</span>
+                    <span class="project-feature">GUI</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹899</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="python" data-year="mini">
+                <span class="project-category">Python • Mini Project</span>
+                <h3 class="project-title">Automation Scripts</h3>
+                <p class="project-description">Office automation tools</p>
+                <div class="project-features">
+                    <span class="project-feature">Excel</span>
+                    <span class="project-feature">Email</span>
+                    <span class="project-feature">Files</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹699</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+            
+            <div class="project-card reveal" data-category="python" data-year="third">
+                <span class="project-category">Python • 3rd Year</span>
+                <h3 class="project-title">Chatbot System</h3>
+                <p class="project-description">AI chatbot with NLP</p>
+                <div class="project-features">
+                    <span class="project-feature">NLP</span>
+                    <span class="project-feature">Intent</span>
+                    <span class="project-feature">Web UI</span>
+                </div>
+                <div class="project-footer">
+                    <span class="project-price">₹1,999</span>
+                    <a href="contact.html" class="project-btn">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 100px 50px; text-align: center; background: var(--bg-secondary);">
+        <div class="reveal">
+            <h2 class="section-title">Don't See Your <span class="highlight">Project?</span></h2>
+            <p class="section-description" style="margin-bottom: 40px;">Contact us for custom project development</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="contact.html" class="btn btn-primary">Request Custom Project →</a>
+                <a href="https://wa.me/918897492936" target="_blank" class="btn btn-secondary">💬 WhatsApp Us</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="images/logo.png" alt="DevSpark Labs">
+                    <span>DevSpark Labs</span>
+                </div>
+                <p>Spark the Code. Shape the Future.</p>
+                <div class="footer-social">
+                    <a href="https://wa.me/918897492936" target="_blank">💬</a>
+                    <a href="mailto:devsparkslabs@gmail.com">📧</a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="tel:+918897492936">📞 +91 8897492936</a></li>
+                    <li><a href="mailto:devsparkslabs@gmail.com">📧 devsparkslabs@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 DevSpark Labs. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/918897492936" target="_blank" class="whatsapp-btn">💬</a>
+    <script src="js/main.js"></script>
+</body>
+</html>
