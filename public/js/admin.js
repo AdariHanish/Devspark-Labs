@@ -2,7 +2,7 @@
 // DevSpark Labs - Admin JavaScript (COMPLETE BUG-FREE VERSION)
 // ═══════════════════════════════════════════════════════════
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initAdminAuth();
     initAdminCursor();
     initAdminTheme();
@@ -54,34 +54,34 @@ function initAdminAuth() {
 function initLoginForm() {
     const loginForm = document.getElementById('admin-login-form');
     if (!loginForm) return;
-    
+
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const username = document.getElementById('username').value.trim();
         const password = document.getElementById('password').value;
         const errorEl = document.querySelector('.login-error');
         const submitBtn = loginForm.querySelector('.submit-btn');
-        
+
         if (!username || !password) {
             errorEl.textContent = 'Please enter username and password';
             errorEl.classList.add('show');
             return;
         }
-        
+
         errorEl.classList.remove('show');
         submitBtn.textContent = 'Logging in...';
         submitBtn.disabled = true;
-        
+
         try {
             const response = await fetch('/api/admin/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
-            
+
             const result = await response.json();
-            
+
             if (result.success && result.token) {
                 localStorage.setItem('adminToken', result.token);
                 window.location.href = 'dashboard.html';
@@ -137,17 +137,17 @@ function showLoading(containerId, message = 'Loading...') {
 // ============ Load Stats ============
 async function loadStats() {
     try {
-        const response = await fetch('/api/stats', { 
-            headers: getAuthHeaders() 
+        const response = await fetch('/api/stats', {
+            headers: getAuthHeaders()
         });
-        
+
         if (!response.ok) {
             console.error('Failed to load stats');
             return;
         }
-        
+
         const stats = await response.json();
-        
+
         document.querySelectorAll('[data-stat]').forEach(el => {
             const stat = el.getAttribute('data-stat');
             if (stats[stat] !== undefined) {
@@ -163,20 +163,20 @@ function animateNumber(element, target) {
     let current = 0;
     const duration = 1000;
     const startTime = performance.now();
-    
+
     function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         current = Math.floor(progress * target);
         element.textContent = current;
-        
+
         if (progress < 1) {
             requestAnimationFrame(update);
         } else {
             element.textContent = target;
         }
     }
-    
+
     requestAnimationFrame(update);
 }
 
@@ -184,20 +184,20 @@ function animateNumber(element, target) {
 async function loadLeads() {
     const container = document.getElementById('leads-table');
     if (!container) return;
-    
+
     showLoading('leads-table', 'Loading responses...');
-    
+
     try {
-        const response = await fetch('/api/leads', { 
-            headers: getAuthHeaders() 
+        const response = await fetch('/api/leads', {
+            headers: getAuthHeaders()
         });
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch leads');
         }
-        
+
         const leads = await response.json();
-        
+
         if (!leads || leads.length === 0) {
             container.innerHTML = `
                 <div style="padding: 50px; text-align: center;">
@@ -207,7 +207,7 @@ async function loadLeads() {
             `;
             return;
         }
-        
+
         container.innerHTML = `
             <table>
                 <thead>
@@ -264,7 +264,7 @@ async function updateLeadStatus(id, status) {
             headers: getAuthHeaders(),
             body: JSON.stringify({ status })
         });
-        
+
         if (response.ok) {
             showAdminNotification('Status updated successfully', 'success');
             loadLeads();
@@ -281,13 +281,13 @@ async function updateLeadStatus(id, status) {
 
 async function deleteLead(id) {
     if (!confirm('Are you sure you want to delete this lead?')) return;
-    
+
     try {
         const response = await fetch(`/api/leads/${id}`, {
             method: 'DELETE',
             headers: getAuthHeaders()
         });
-        
+
         if (response.ok) {
             showAdminNotification('Lead deleted successfully', 'success');
             loadLeads();
@@ -305,20 +305,20 @@ async function deleteLead(id) {
 async function loadPayments() {
     const container = document.getElementById('payments-table');
     if (!container) return;
-    
+
     showLoading('payments-table', 'Loading payments...');
-    
+
     try {
-        const response = await fetch('/api/payments', { 
-            headers: getAuthHeaders() 
+        const response = await fetch('/api/payments', {
+            headers: getAuthHeaders()
         });
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch payments');
         }
-        
+
         const payments = await response.json();
-        
+
         if (!payments || payments.length === 0) {
             container.innerHTML = `
                 <div style="padding: 50px; text-align: center;">
@@ -328,7 +328,7 @@ async function loadPayments() {
             `;
             return;
         }
-        
+
         container.innerHTML = `
             <table>
                 <thead>
@@ -351,9 +351,9 @@ async function loadPayments() {
                             <td>${escapeHtml(payment.project_name)}</td>
                             <td><strong style="color: var(--accent-primary);">₹${payment.amount}</strong></td>
                             <td>
-                                ${payment.screenshot_path ? 
-                                    `<a href="/uploads/${payment.screenshot_path}" target="_blank" class="action-btn view">View</a>` : 
-                                    '<span style="color: var(--text-muted);">No file</span>'}
+                                ${payment.screenshot_path ?
+                `<a href="/uploads/${payment.screenshot_path}" target="_blank" class="action-btn view">View</a>` :
+                '<span style="color: var(--text-muted);">No file</span>'}
                             </td>
                             <td><span class="status-badge ${payment.status}">${formatStatus(payment.status)}</span></td>
                             <td>${formatDate(payment.created_at)}</td>
@@ -389,7 +389,7 @@ async function updatePaymentStatus(id, status) {
             headers: getAuthHeaders(),
             body: JSON.stringify({ status })
         });
-        
+
         if (response.ok) {
             const message = status === 'verified' ? 'Payment verified!' : 'Payment rejected';
             showAdminNotification(message, 'success');
@@ -408,20 +408,20 @@ async function updatePaymentStatus(id, status) {
 async function loadReviews() {
     const container = document.getElementById('reviews-table');
     if (!container) return;
-    
+
     showLoading('reviews-table', 'Loading reviews...');
-    
+
     try {
-        const response = await fetch('/api/reviews/all', { 
-            headers: getAuthHeaders() 
+        const response = await fetch('/api/reviews/all', {
+            headers: getAuthHeaders()
         });
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch reviews');
         }
-        
+
         const reviews = await response.json();
-        
+
         if (!reviews || reviews.length === 0) {
             container.innerHTML = `
                 <div style="padding: 50px; text-align: center;">
@@ -431,7 +431,7 @@ async function loadReviews() {
             `;
             return;
         }
-        
+
         container.innerHTML = `
             <table>
                 <thead>
@@ -459,10 +459,10 @@ async function loadReviews() {
                                 </span>
                             </td>
                             <td>
-                                ${!review.is_approved ? 
-                                    `<button class="action-btn approve" onclick="approveReview(${review.id})">Approve</button>` :
-                                    `<button class="action-btn reject" onclick="unapproveReview(${review.id})">Hide</button>`
-                                }
+                                ${!review.is_approved ?
+                `<button class="action-btn approve" onclick="approveReview(${review.id})">Approve</button>` :
+                `<button class="action-btn reject" onclick="unapproveReview(${review.id})">Hide</button>`
+            }
                                 <button class="action-btn delete" onclick="deleteReview(${review.id})">Delete</button>
                             </td>
                         </tr>
@@ -487,7 +487,7 @@ async function approveReview(id) {
             headers: getAuthHeaders(),
             body: JSON.stringify({ is_approved: true })
         });
-        
+
         if (response.ok) {
             showAdminNotification('Review approved and visible to users', 'success');
             loadReviews();
@@ -508,7 +508,7 @@ async function unapproveReview(id) {
             headers: getAuthHeaders(),
             body: JSON.stringify({ is_approved: false })
         });
-        
+
         if (response.ok) {
             showAdminNotification('Review hidden from users', 'success');
             loadReviews();
@@ -523,13 +523,13 @@ async function unapproveReview(id) {
 
 async function deleteReview(id) {
     if (!confirm('Are you sure you want to delete this review?')) return;
-    
+
     try {
         const response = await fetch(`/api/reviews/${id}`, {
             method: 'DELETE',
             headers: getAuthHeaders()
         });
-        
+
         if (response.ok) {
             showAdminNotification('Review deleted', 'success');
             loadReviews();
@@ -547,18 +547,18 @@ async function deleteReview(id) {
 async function loadProjects() {
     const container = document.getElementById('projects-table');
     if (!container) return;
-    
+
     showLoading('projects-table', 'Loading projects...');
-    
+
     try {
         const response = await fetch('/api/projects');
-        
+
         if (!response.ok) {
             throw new Error('Failed to fetch projects');
         }
-        
+
         const projects = await response.json();
-        
+
         if (!projects || projects.length === 0) {
             container.innerHTML = `
                 <div style="padding: 50px; text-align: center;">
@@ -568,7 +568,7 @@ async function loadProjects() {
             `;
             return;
         }
-        
+
         container.innerHTML = `
             <table>
                 <thead>
@@ -609,13 +609,13 @@ async function loadProjects() {
 
 async function deleteProject(id) {
     if (!confirm('Are you sure you want to delete this project?')) return;
-    
+
     try {
         const response = await fetch(`/api/projects/${id}`, {
             method: 'DELETE',
             headers: getAuthHeaders()
         });
-        
+
         if (response.ok) {
             showAdminNotification('Project deleted', 'success');
             loadProjects();
@@ -633,30 +633,30 @@ async function deleteProject(id) {
 function initAddProjectForm() {
     const form = document.getElementById('add-project-form');
     if (!form) return;
-    
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
-        
+
         // Handle checkbox
         data.is_popular = document.getElementById('is_popular')?.checked || false;
-        
+
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Adding...';
         submitBtn.disabled = true;
-        
+
         try {
             const response = await fetch('/api/projects', {
                 method: 'POST',
                 headers: getAuthHeaders(),
                 body: JSON.stringify(data)
             });
-            
+
             const result = await response.json();
-            
+
             if (result.success) {
                 showAdminNotification('Project added successfully!', 'success');
                 form.reset();
@@ -685,50 +685,50 @@ function logout() {
 // ============ Admin Cursor ============
 function initAdminCursor() {
     if ('ontouchstart' in window || navigator.maxTouchPoints > 0) return;
-    
+
     let cursor = document.querySelector('.cursor');
     let cursorGlow = document.querySelector('.cursor-glow');
-    
+
     if (!cursor) {
         cursor = document.createElement('div');
         cursor.className = 'cursor';
         document.body.appendChild(cursor);
     }
-    
+
     if (!cursorGlow) {
         cursorGlow = document.createElement('div');
         cursorGlow.className = 'cursor-glow';
         document.body.appendChild(cursorGlow);
     }
-    
+
     let mouseX = 0, mouseY = 0;
     let cursorX = 0, cursorY = 0;
-    
+
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
     });
-    
+
     function animate() {
         cursorX += (mouseX - cursorX) * 0.15;
         cursorY += (mouseY - cursorY) * 0.15;
-        
+
         cursor.style.left = mouseX + 'px';
         cursor.style.top = mouseY + 'px';
         cursorGlow.style.left = cursorX + 'px';
         cursorGlow.style.top = cursorY + 'px';
-        
+
         requestAnimationFrame(animate);
     }
     animate();
-    
+
     document.addEventListener('mouseover', (e) => {
         if (e.target.closest('a, button, input, select, textarea, tr, .action-btn, label')) {
             cursor.classList.add('hovering');
             cursorGlow.classList.add('hovering');
         }
     });
-    
+
     document.addEventListener('mouseout', (e) => {
         if (e.target.closest('a, button, input, select, textarea, tr, .action-btn, label')) {
             cursor.classList.remove('hovering');
@@ -804,16 +804,16 @@ function formatYearType(yearType) {
 // ============ Admin Notification ============
 function showAdminNotification(message, type = 'info') {
     document.querySelectorAll('.notification').forEach(n => n.remove());
-    
+
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.innerHTML = `
         <span>${message}</span>
         <button onclick="this.parentElement.remove()">&times;</button>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         if (notification.parentElement) {
             notification.remove();
@@ -893,30 +893,36 @@ window.loadReviews = loadReviews;
 window.loadProjects = loadProjects;
 // ============ Manual Review Management ============
 function openAddReviewModal() {
-    const modal = document.getElementById('add-review-modal') ; if (modal) modal.classList.add('show') ; }
+    const modal = document.getElementById('add-review-modal'); if (modal) modal.classList.add('show');
+}
 
 function closeAddReviewModal() {
-    const modal = document.getElementById('add-review-modal') ; if (modal) modal.classList.remove('show') ; }
+    const modal = document.getElementById('add-review-modal'); if (modal) modal.classList.remove('show');
+}
 
 function initAddReviewForm() {
-    const form = document.getElementById('add-review-form') ; if (!form) return ; form.addEventListener('submit', async (e) => {
-        e.preventDefault() ; const reviewData = {
+    const form = document.getElementById('add-review-form'); if (!form) return; form.addEventListener('submit', async (e) => {
+        e.preventDefault(); const reviewData = {
             student_name: document.getElementById('review-student-name').value,
             college_name: document.getElementById('review-college-name').value,
             year_of_study: document.getElementById('review-year').value,
             rating: parseInt(document.getElementById('review-rating').value),
             project_name: document.getElementById('review-project-name').value,
             experience: document.getElementById('review-experience').value
-        } ; try {
+        }; try {
             const response = await fetch('/api/reviews/admin', {
                 method: 'POST',
                 headers: getAuthHeaders(),
                 body: JSON.stringify(reviewData)
-            }) ; if (response.ok) {
-                showAdminNotification('Review added successfully!', 'success') ; form.reset() ; closeAddReviewModal() ; loadReviews() ; loadStats() ; } else {
-                const error = await response.json() ; showAdminNotification(error.error || 'Error adding review', 'error') ; }
+            }); if (response.ok) {
+                showAdminNotification('Review added successfully!', 'success'); form.reset(); closeAddReviewModal(); loadReviews(); loadStats();
+            } else {
+                const error = await response.json(); showAdminNotification(error.error || 'Error adding review', 'error');
+            }
         } catch (error) {
-            console.error('Error:', error) ; showAdminNotification('Error adding review', 'error') ; }
-    }) ; }
+            console.error('Error:', error); showAdminNotification('Error adding review', 'error');
+        }
+    });
+}
 
-window.openAddReviewModal = openAddReviewModal ; window.closeAddReviewModal = closeAddReviewModal ; EOF
+window.openAddReviewModal = openAddReviewModal; window.closeAddReviewModal = closeAddReviewModal; EOF

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Learn about DevSpark Labs - Your trusted partner for academic project development and mentoring.">
+    <meta name="description"
+        content="Learn about DevSpark Labs - Your trusted partner for academic project development and mentoring.">
     <title>About Us - DevSpark Labs</title>
     <script>
-        // Prevent flash of wrong theme
-        (function() {
+        (function () {
             const theme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', theme);
         })();
@@ -15,14 +16,171 @@
     <link rel="icon" href="images/logo.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* ── About Card Glow System ── */
+        .about-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 50px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(20px);
+            transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(220, 38, 38, 0.08) 0%, transparent 65%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .about-card:hover {
+            border-color: rgba(220, 38, 38, 0.45);
+            box-shadow:
+                0 0 30px rgba(220, 38, 38, 0.18),
+                0 0 60px rgba(220, 38, 38, 0.08),
+                0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .about-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Small card variant (Mission/Vision 2-col) */
+        .about-card-sm {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
+            transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card-sm:hover {
+            border-color: rgba(220, 38, 38, 0.45);
+            box-shadow:
+                0 0 25px rgba(220, 38, 38, 0.18),
+                0 0 50px rgba(220, 38, 38, 0.07),
+                0 16px 40px rgba(0, 0, 0, 0.25);
+            transform: translateY(-4px);
+        }
+
+        /* Icon glow */
+        .about-icon {
+            font-size: 3rem;
+            margin-bottom: 18px;
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 0.3s ease,
+                text-shadow 0.3s ease;
+        }
+
+        .about-feature-item:hover .about-icon {
+            transform: scale(1.25) translateY(-4px);
+            filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.7)) drop-shadow(0 0 24px rgba(255, 80, 80, 0.4));
+        }
+
+        .about-card-sm:hover .card-icon {
+            transform: scale(1.2) translateY(-2px);
+            filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.65)) drop-shadow(0 0 20px rgba(255, 80, 80, 0.35));
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                filter 0.3s ease;
+        }
+
+        /* Feature grid */
+        .about-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .about-feature-item {
+            text-align: center;
+            padding: 28px 20px;
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(10px);
+            cursor: default;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .about-feature-item:hover {
+            border-color: rgba(220, 38, 38, 0.4);
+            box-shadow:
+                0 0 20px rgba(220, 38, 38, 0.14),
+                0 8px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .about-feature-item h4 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+
+        .about-feature-item p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .mission-vision-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-card,
+            .about-card-sm {
+                padding: 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .about-feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <!-- Loader -->
     <div class="loader-wrapper">
         <div class="loader">
             <div class="loader-logo"><img src="images/logo.png" alt="DevSpark Labs"></div>
             <div class="loader-text">DevSpark Labs</div>
-            <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+            <div class="loader-bar">
+                <div class="loader-bar-fill"></div>
+            </div>
         </div>
     </div>
 
@@ -59,7 +217,9 @@
 
     <!-- Hero Section -->
     <section class="hero" style="min-height: 50vh; padding-top: 150px;">
-        <div class="hero-bg"><div class="hero-bg-gradient"></div></div>
+        <div class="hero-bg">
+            <div class="hero-bg-gradient"></div>
+        </div>
         <div class="particles-container"></div>
         <div style="text-align: center; position: relative; z-index: 1;">
             <span class="section-tag">🚀 About Us</span>
@@ -71,82 +231,97 @@
     <!-- About Content -->
     <section style="padding: 80px 50px;">
         <div style="max-width: 1000px; margin: 0 auto;">
+
             <!-- Main About Card -->
-            <div class="reveal" style="background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 24px; padding: 50px; margin-bottom: 40px; backdrop-filter: blur(20px);">
+            <div class="about-card reveal">
                 <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
                     <img src="images/logo.png" alt="Logo" style="width: 50px; height: 50px;">
                     <h2 style="font-size: 2rem; color: var(--text-primary);">DevSpark Labs</h2>
                 </div>
                 <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-                    DevSpark Labs is a student-focused IT project development and mentoring startup that helps engineering students successfully complete their academic projects with real understanding and practical skills.
+                    DevSpark Labs is a student-focused IT project development and mentoring startup that helps
+                    engineering students successfully complete their academic projects with real understanding and
+                    practical skills.
                 </p>
                 <p style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8;">
-                    Our mission is not just giving projects — but guiding students from <strong style="color: var(--accent-primary);">idea → development → explanation → submission → confidence</strong>.
+                    Our mission is not just giving projects — but guiding students from <strong
+                        style="color: var(--accent-primary);">idea → development → explanation → submission →
+                        confidence</strong>.
                 </p>
             </div>
-            
+
             <!-- Mission & Vision -->
-            <div class="reveal" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 40px;">
-                <div style="background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 20px; padding: 40px; backdrop-filter: blur(20px);">
-                    <h3 style="margin-bottom: 18px; display: flex; align-items: center; gap: 12px; color: var(--text-primary); font-size: 1.4rem;">
-                        🎯 Our Mission
+            <div class="mission-vision-grid reveal">
+                <div class="about-card-sm">
+                    <h3
+                        style="margin-bottom: 18px; display: flex; align-items: center; gap: 12px; color: var(--text-primary); font-size: 1.4rem;">
+                        <span class="card-icon">🎯</span> Our Mission
                     </h3>
                     <p style="color: var(--text-secondary); line-height: 1.7;">
-                        To empower every engineering student with quality projects and real understanding, enabling them to confidently present and explain their work during viva and beyond.
+                        To empower every engineering student with quality projects and real understanding, enabling them
+                        to confidently present and explain their work during viva and beyond.
                     </p>
                 </div>
-                <div style="background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 20px; padding: 40px; backdrop-filter: blur(20px);">
-                    <h3 style="margin-bottom: 18px; display: flex; align-items: center; gap: 12px; color: var(--text-primary); font-size: 1.4rem;">
-                        👁️ Our Vision
+                <div class="about-card-sm">
+                    <h3
+                        style="margin-bottom: 18px; display: flex; align-items: center; gap: 12px; color: var(--text-primary); font-size: 1.4rem;">
+                        <span class="card-icon">👁️</span> Our Vision
                     </h3>
                     <p style="color: var(--text-secondary); line-height: 1.7;">
-                        To become the most trusted name in academic project development and grow into a comprehensive skill development platform for students across India.
+                        To become the most trusted name in academic project development and grow into a comprehensive
+                        skill development platform for students across India.
                     </p>
                 </div>
             </div>
-            
+
             <!-- Why Choose Us -->
-            <div class="reveal" style="background: var(--bg-glass); border: 1px solid var(--border-glass); border-radius: 24px; padding: 50px; backdrop-filter: blur(20px);">
-                <h3 style="font-size: 1.8rem; margin-bottom: 40px; text-align: center; color: var(--text-primary);">
-                    Why Choose <span style="background: var(--gradient-accent); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;">DevSpark Labs?</span>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
-                    <div style="text-align: center; padding: 25px;">
-                        <div style="font-size: 3rem; margin-bottom: 18px;">💡</div>
-                        <h4 style="margin-bottom: 12px; color: var(--text-primary); font-size: 1.1rem;">Unique Ideas</h4>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Trending & innovative project ideas that make you stand out</p>
+            <div class="about-card reveal">
+                <h3 style="font-size: 1.8rem; margin-bottom: 8px; text-align: center; color: var(--text-primary);">
+                    Why Choose <span
+                        style="background: var(--gradient-accent); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;">DevSpark
+                        Labs?</span>
+                </h3>
+
+                <div class="about-feature-grid">
+                    <div class="about-feature-item">
+                        <div class="about-icon">💡</div>
+                        <h4>Unique Ideas</h4>
+                        <p>Trending & innovative project ideas that make you stand out from the crowd</p>
                     </div>
-                    <div style="text-align: center; padding: 25px;">
-                        <div style="font-size: 3rem; margin-bottom: 18px;">🧠</div>
-                        <h4 style="margin-bottom: 12px; color: var(--text-primary); font-size: 1.1rem;">Real Guidance</h4>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Complete code explanation for confident viva performance</p>
+                    <div class="about-feature-item">
+                        <div class="about-icon">🧠</div>
+                        <h4>Real Guidance</h4>
+                        <p>Complete code explanation for confident viva performance and deeper understanding</p>
                     </div>
-                    <div style="text-align: center; padding: 25px;">
-                        <div style="font-size: 3rem; margin-bottom: 18px;">💰</div>
-                        <h4 style="margin-bottom: 12px; color: var(--text-primary); font-size: 1.1rem;">Affordable</h4>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Student-friendly pricing with no hidden costs</p>
+                    <div class="about-feature-item">
+                        <div class="about-icon">💰</div>
+                        <h4>Affordable</h4>
+                        <p>Student-friendly pricing with no hidden costs — transparent and honest</p>
                     </div>
-                    <div style="text-align: center; padding: 25px;">
-                        <div style="font-size: 3rem; margin-bottom: 18px;">📚</div>
-                        <h4 style="margin-bottom: 12px; color: var(--text-primary); font-size: 1.1rem;">Documentation</h4>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Complete docs, PPT & IEEE papers included</p>
+                    <div class="about-feature-item">
+                        <div class="about-icon">📚</div>
+                        <h4>Documentation</h4>
+                        <p>Complete docs, PPT & IEEE papers included with every project delivery</p>
                     </div>
-                    <div style="text-align: center; padding: 25px;">
-                        <div style="font-size: 3rem; margin-bottom: 18px;">🤝</div>
-                        <h4 style="margin-bottom: 12px; color: var(--text-primary); font-size: 1.1rem;">24/7 Support</h4>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">WhatsApp support till your submission</p>
+                    <div class="about-feature-item">
+                        <div class="about-icon">🤝</div>
+                        <h4>24/7 Support</h4>
+                        <p>WhatsApp support available till your submission — we're always there</p>
                     </div>
-                    <div style="text-align: center; padding: 25px;">
-                        <div style="font-size: 3rem; margin-bottom: 18px;">🚀</div>
-                        <h4 style="margin-bottom: 12px; color: var(--text-primary); font-size: 1.1rem;">Deployment</h4>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">Free hosting & deployment assistance</p>
+                    <div class="about-feature-item">
+                        <div class="about-icon">🚀</div>
+                        <h4>Deployment</h4>
+                        <p>Free hosting & deployment assistance for all frontend projects</p>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Tagline -->
-            <div class="reveal" style="text-align: center; margin-top: 50px; padding: 40px;">
+            <div class="reveal" style="text-align: center; margin-top: 30px; padding: 40px;">
                 <p style="font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;">
-                    ⭐ <span style="background: var(--gradient-accent); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;">Spark the Code. Shape the Future.</span>
+                    ⭐ <span
+                        style="background: var(--gradient-accent); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;">Spark
+                        the Code. Shape the Future.</span>
                 </p>
                 <p style="font-size: 1.2rem; color: var(--text-secondary);">Your Project Partner Till Submission</p>
             </div>
@@ -160,7 +335,8 @@
             <p class="section-description" style="margin-bottom: 40px;">Let's build something amazing together!</p>
             <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
                 <a href="contact.html" class="btn btn-primary">Get Started →</a>
-                <a href="https://wa.me/918897492936?text=Hi! I want to know more about DevSpark Labs." target="_blank" class="btn btn-secondary">💬 Chat with Us</a>
+                <a href="https://wa.me/918897492936?text=Hi! I want to know more about DevSpark Labs." target="_blank"
+                    class="btn btn-secondary">💬 Chat with Us</a>
             </div>
         </div>
     </section>
@@ -203,8 +379,10 @@
     </footer>
 
     <!-- WhatsApp Button -->
-    <a href="https://wa.me/918897492936?text=Hi! I'm interested in DevSpark Labs services." target="_blank" class="whatsapp-btn">💬</a>
+    <a href="https://wa.me/918897492936?text=Hi! I'm interested in DevSpark Labs services." target="_blank"
+        class="whatsapp-btn">💬</a>
 
     <script src="js/main.js"></script>
 </body>
+
 </html>
