@@ -584,9 +584,45 @@ function initProjectsFilter() {
 }
 
 // ============ Testimonials Slider ============
-function initTestimonialsSlider() {
+async function initTestimonialsSlider() {
     const track = document.querySelector('.testimonials-track');
     if (!track) return;
+
+    // Fetch reviews from DB
+    try {
+        const res = await fetch('/api/reviews');
+        const data = await res.json();
+        if (data.success && data.reviews && data.reviews.length > 0) {
+
+            // Generate HTML for a testimonial card
+            const createCardHTML = (r) => `
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">${r.student_name.charAt(0).toUpperCase()}</div>
+                        <div class="testimonial-info">
+                            <h4>${escapeHtml(r.student_name)}</h4>
+                            <p>${escapeHtml(r.college_name)} &bull; ${escapeHtml(r.year_of_study)}</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating"><span>${'⭐'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span></div>
+                    <p class="testimonial-text">"${escapeHtml(r.experience)}"</p>
+                    <span class="testimonial-project">📂 ${escapeHtml(r.project_name)}</span>
+                </div>
+            `;
+
+            // Populate Track (requires two sets for infinite scroll loop)
+            const cardsHTML = data.reviews.map(createCardHTML).join('');
+            track.innerHTML = cardsHTML + cardsHTML;
+
+            // Populate "View All" modal
+            const allContainer = document.getElementById('allReviewsContainer');
+            if (allContainer) {
+                allContainer.innerHTML = cardsHTML;
+            }
+        }
+    } catch (e) {
+        console.error('Failed to fetch reviews:', e);
+    }
 
     // Pause on hover
     track.addEventListener('mouseenter', () => {
@@ -604,7 +640,7 @@ function initTestimonialsSlider() {
     if (prevBtn && nextBtn) {
         let isHolding = false;
         let holdInterval;
-        const jumpAmount = 4000; // ms to jump in animation timeline (adjusts speed)
+        const jumpAmount = 500; // ms to jump in animation timeline (adjusts speed)
 
         const shiftAnimation = (amount) => {
             const anims = track.getAnimations();
@@ -630,7 +666,7 @@ function initTestimonialsSlider() {
 
             holdInterval = setInterval(() => {
                 shiftAnimation(direction * jumpAmount);
-            }, 100);
+            }, 16);
         };
 
         const stopHold = () => {
@@ -641,17 +677,17 @@ function initTestimonialsSlider() {
         };
 
         // Prev Button
-        prevBtn.addEventListener('mousedown', () => startHold(1));
+        prevBtn.addEventListener('mousedown', () => startHold(-1));
         prevBtn.addEventListener('mouseup', stopHold);
         prevBtn.addEventListener('mouseleave', stopHold);
-        prevBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(1); });
+        prevBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(-1); });
         prevBtn.addEventListener('touchend', stopHold);
 
         // Next Button
-        nextBtn.addEventListener('mousedown', () => startHold(-1));
+        nextBtn.addEventListener('mousedown', () => startHold(1));
         nextBtn.addEventListener('mouseup', stopHold);
         nextBtn.addEventListener('mouseleave', stopHold);
-        nextBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(-1); });
+        nextBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startHold(1); });
         nextBtn.addEventListener('touchend', stopHold);
     }
 }
