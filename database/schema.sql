@@ -2,8 +2,6 @@
 -- DevSpark Labs Database Schema - UPDATED PRICING
 -- ═══════════════════════════════════════════════════════════
 
-CREATE DATABASE IF NOT EXISTS devspark_labs;
-USE devspark_labs;
 
 -- Drop existing tables to recreate with new prices
 DROP TABLE IF EXISTS reviews;
