@@ -7,25 +7,34 @@ window.addEventListener('load', function () {
     window.scrollTo(0, 0);
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    initAssets();
+document.addEventListener('DOMContentLoaded', async function () {
+    // Critical initialization
     initLoader();
-    initCursor();
     initTheme();
     initNavbar();
     initMobileMenu();
     initParticles();
+
+    // Start background init
+    initCursor();
     initScrollReveal();
     initStatsCounter();
     initProjectsFilter();
     initTestimonialsSlider();
-    fetchProjects();
-    fetchReviews();
     initForms();
     initQRModal();
     initStarRating();
     initFileUpload();
+
+    // Fetch critical data before hiding loader fully (if we wanted to)
+    // For now, let's at least trigger them
+    await Promise.all([
+        initAssets(),
+        fetchProjects(),
+        fetchReviews()
+    ]);
 });
+
 
 // ============ Dynamic Assets (Logo/QR) ============
 async function initAssets() {
@@ -467,34 +476,30 @@ function initParticles() {
     }
 }
 
-// ============ Scroll Reveal ============
+// ============ Scroll Reveal - Efficient Intersection Observer ============
 function initScrollReveal() {
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-
     if (revealElements.length === 0) return;
 
-    const revealOnScroll = () => {
-        const windowHeight = window.innerHeight;
-        const revealPoint = 100;
-
-        revealElements.forEach(el => {
-            const elementTop = el.getBoundingClientRect().top;
-            const elementBottom = el.getBoundingClientRect().bottom;
-
-            if (elementTop < windowHeight - revealPoint && elementBottom > 0) {
-                el.classList.add('active');
-            } else {
-                el.classList.remove('active');
-            }
-        });
+    const observerOption = {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
     };
 
-    window.addEventListener('scroll', revealOnScroll, { passive: true });
-    window.addEventListener('resize', revealOnScroll, { passive: true });
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                // Only remove if we want it to re-animate (currently keeping it active once revealed)
+                // entry.target.classList.remove('active'); 
+            }
+        });
+    }, observerOption);
 
-    // Initial check
-    setTimeout(revealOnScroll, 100);
+    revealElements.forEach(el => revealObserver.observe(el));
 }
+
 
 // ============ Stats Counter - Visibility Based ============
 function initStatsCounter() {

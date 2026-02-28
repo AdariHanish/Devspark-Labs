@@ -122,6 +122,7 @@ app.get('/api/test-db', async (req, res) => {
 
 // Asset Configuration Endpoint (to hide sensitive image URLs)
 app.get('/api/assets-config', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=3600'); // Cache for 1 hour
     res.json({
         logo: '/api/assets/logo',
         qr_code: '/api/assets/qr_code'
@@ -147,6 +148,7 @@ app.get('/api/assets/:name', async (req, res) => {
 
         const asset = rows[0];
         res.set('Content-Type', asset.mime_type);
+        res.set('Cache-Control', 'public, max-age=2592000'); // Cache for 30 days
         res.send(asset.data);
     } catch (error) {
         console.error('Error serving asset:', error);
