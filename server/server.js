@@ -109,6 +109,30 @@ app.get('/api/admin/verify', authenticateToken, (req, res) => {
     res.json({ success: true, user: req.user });
 });
 
+// Diagnostic Endpoint to check DB Connection on Vercel
+app.get('/api/test-db', async (req, res) => {
+    try {
+        const connection = await pool.getConnection();
+        const [rows] = await connection.query('SELECT 1 as connected');
+        connection.release();
+        res.json({
+            success: true,
+            message: 'Successfully connected to database!',
+            env_check: {
+                host: process.env.DB_HOST ? 'Present' : 'MISSING',
+                user: process.env.DB_USER ? 'Present' : 'MISSING',
+                db: process.env.DB_NAME ? 'Present' : 'MISSING'
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            tip: 'Check your Vercel Environment Variables and Aiven IP allowlist.'
+        });
+    }
+});
+
 // ==================== LEADS ROUTES ====================
 app.post('/api/leads', async (req, res) => {
     try {
