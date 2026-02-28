@@ -208,21 +208,9 @@ async function fetchReviews() {
             if (allReviewsContainer) {
                 allReviewsContainer.innerHTML = reviewsHtml;
             }
-        } else if (allReviewsContainer) {
-            // Fallback: Populate static HTML reviews into the modal if API returns empty
-            const staticCards = Array.from(track.children);
-            const uniqueCards = staticCards.slice(0, staticCards.length / 2);
-            allReviewsContainer.innerHTML = uniqueCards.map(card => card.outerHTML).join('');
         }
     } catch (error) {
         console.error('Error fetching reviews:', error);
-
-        // Fallback: Populate static HTML reviews into the modal if API fails
-        if (allReviewsContainer) {
-            const staticCards = Array.from(track.children);
-            const uniqueCards = staticCards.length > 0 ? staticCards.slice(0, Math.max(1, staticCards.length / 2)) : [];
-            allReviewsContainer.innerHTML = uniqueCards.map(card => card.outerHTML).join('');
-        }
     }
 }
 
