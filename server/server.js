@@ -11,13 +11,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Create uploads directory if it doesn't exist
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
-    console.log('📁 Created uploads directory');
-}
-
 // Test database connection
 async function testConnection() {
     try {
@@ -42,18 +35,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Removed static uploads for Vercel compatibility
 
-// Multer configuration for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadsDir);
-    },
-    filename: (req, file, cb) => {
-        const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
-        cb(null, uniqueName);
-    }
-});
+
+// Multer configuration for file uploads - Using memory storage for Vercel
+const storage = multer.memoryStorage();
+
 
 const upload = multer({
     storage,
@@ -130,6 +117,40 @@ app.get('/api/test-db', async (req, res) => {
             error: error.message,
             tip: 'Check your Vercel Environment Variables and Aiven IP allowlist.'
         });
+    }
+});
+
+// Asset Configuration Endpoint (to hide sensitive image URLs)
+app.get('/api/assets-config', (req, res) => {
+    res.json({
+        logo: '/api/assets/logo',
+        qr_code: '/api/assets/qr_code'
+    });
+});
+
+// Dynamic Asset Serving Endpoint (from DB)
+app.get('/api/assets/:name', async (req, res) => {
+    try {
+        const [rows] = await pool.execute(
+            'SELECT data, mime_type FROM app_assets WHERE asset_name = ?',
+            [req.params.name]
+        );
+
+        if (rows.length === 0) {
+            // Fallback to local file if DB is empty
+            const filePath = path.join(__dirname, '../public/images', req.params.name === 'logo' ? 'logo.png' : 'qr-code.png');
+            if (fs.existsSync(filePath)) {
+                return res.sendFile(filePath);
+            }
+            return res.status(404).send('Asset not found');
+        }
+
+        const asset = rows[0];
+        res.set('Content-Type', asset.mime_type);
+        res.send(asset.data);
+    } catch (error) {
+        console.error('Error serving asset:', error);
+        res.status(500).send('Server Error');
     }
 });
 
@@ -260,7 +281,7 @@ app.post('/api/payments', upload.single('screenshot'), async (req, res) => {
             return res.status(400).json({ error: 'All fields are required' });
         }
 
-        const screenshot_path = req.file ? req.file.filename : null;
+        const screenshot_path = req.file ? req.file.originalname : null;
 
         const [result] = await pool.execute(
             'INSERT INTO payments (student_name, phone, project_name, amount, screenshot_path) VALUES (?, ?, ?, ?, ?)',

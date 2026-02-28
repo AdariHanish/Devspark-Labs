@@ -8,6 +8,7 @@ window.addEventListener('load', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    initAssets();
     initLoader();
     initCursor();
     initTheme();
@@ -25,6 +26,33 @@ document.addEventListener('DOMContentLoaded', function () {
     initStarRating();
     initFileUpload();
 });
+
+// ============ Dynamic Assets (Logo/QR) ============
+async function initAssets() {
+    try {
+        const response = await fetch('/api/assets-config');
+        const config = await response.json();
+
+        if (config.logo) {
+            // Update all logos
+            const logos = document.querySelectorAll('img[src*="logo.png"], link[rel="icon"]');
+            logos.forEach(el => {
+                if (el.tagName === 'IMG') el.src = config.logo;
+                else if (el.tagName === 'LINK') el.href = config.logo;
+            });
+        }
+
+        if (config.qr_code) {
+            // Update QR code on payment page
+            const qrImages = document.querySelectorAll('img[src*="qr-code.png"]');
+            qrImages.forEach(img => {
+                img.src = config.qr_code;
+            });
+        }
+    } catch (error) {
+        console.error('Error loading dynamic assets:', error);
+    }
+}
 
 // ============ Fetch Projects ============
 async function fetchProjects() {
