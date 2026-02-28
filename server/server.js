@@ -92,8 +92,8 @@ app.post('/api/admin/login', async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        // Hardcoded admin credentials: hanish / 12345
-        if (username === 'hanish' && password === '12345') {
+        // Use environment variables for admin credentials
+        if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
             const token = jwt.sign({ username, role: 'admin' }, JWT_SECRET, { expiresIn: '24h' });
             return res.json({ success: true, token, message: 'Login successful' });
         }
