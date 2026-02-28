@@ -5,10 +5,11 @@ const fs = require('fs');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
 const pool = require('./config/db');
+require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
-const JWT_SECRET = 'devspark_secret_key_2024_secure';
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, 'uploads');
