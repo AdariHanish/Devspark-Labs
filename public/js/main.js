@@ -89,11 +89,20 @@ async function fetchProjects() {
                 const ourPrice = Number(project.price);
                 const isHighDemand = ['aiml', 'datascience', 'cybersecurity'].includes(project.category);
                 const isMajor = project.year_type === 'major';
-                // Market rate: 500 more for mini, 999 more for major, 1499 more for high-demand major
-                const marketDiff = isMajor ? (isHighDemand ? 1500 : 999) : 500;
+
+                // Base savings around 2000 off, raising the market value
+                let baseSavings = 1500; // Mini projects
+                if (isMajor) {
+                    baseSavings = isHighDemand ? 2600 : 2200;
+                }
+
+                // Add some deterministic variety so not all projects share the exact same savings amount
+                // This creates variations like -300, -100, +100, +300
+                const variance = (project.title.length % 4) * 200 - 300;
+                const marketDiff = baseSavings + variance;
+
                 const marketPrice = ourPrice + marketDiff;
-                // Actual dev cost: what a freelancer/agency would charge (much higher)
-                const actualCost = marketPrice + (isMajor ? 3500 : 2000);
+                const actualCost = marketPrice + (isMajor ? 4000 : 2500);
                 const savings = marketPrice - ourPrice;
 
                 return `
