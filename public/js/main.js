@@ -365,15 +365,29 @@ function initCursor() {
         if (e.target.closest(hoverSelectors)) {
             cursor.classList.add('hovering');
             cursorGlow.classList.add('hovering');
-        }
-    });
-
-    document.addEventListener('mouseout', (e) => {
-        if (e.target.closest(hoverSelectors)) {
+        } else {
             cursor.classList.remove('hovering');
             cursorGlow.classList.remove('hovering');
         }
     });
+
+    document.addEventListener('mouseout', (e) => {
+        if (!e.relatedTarget) {
+            cursor.classList.remove('hovering');
+            cursorGlow.classList.remove('hovering');
+        }
+    });
+
+    window.addEventListener('scroll', () => {
+        const el = document.elementFromPoint(mouseX, mouseY);
+        if (el && el.closest(hoverSelectors)) {
+            cursor.classList.add('hovering');
+            cursorGlow.classList.add('hovering');
+        } else {
+            cursor.classList.remove('hovering');
+            cursorGlow.classList.remove('hovering');
+        }
+    }, { passive: true });
 }
 
 // ============ Theme Toggle ============
