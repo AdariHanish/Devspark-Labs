@@ -457,5 +457,24 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
-// Required for Vercel
-module.exports = app;
+// Start server locally OR export for Vercel
+if (require.main === module) {
+    // Running locally via `node start.js` or `node server/server.js`
+    app.listen(PORT, () => {
+        console.log('');
+        console.log('╔═══════════════════════════════════════════════════════════╗');
+        console.log('║              🌐 DevSpark Labs is LIVE!                    ║');
+        console.log('║                                                           ║');
+        console.log(`║   Local:  http://localhost:${PORT}                          ║`);
+        console.log('║                                                           ║');
+        console.log('║     ─────────────────────────────────────────────────     ║');
+        console.log('║     👤 Admin Username: hanish                             ║');
+        console.log('║     🔑 Admin Password: 12345                              ║');
+        console.log('║                                                           ║');
+        console.log('╚═══════════════════════════════════════════════════════════╝');
+        console.log('');
+    });
+} else {
+    // Exported for Vercel serverless
+    module.exports = app;
+}
