@@ -1032,20 +1032,24 @@ window.showNotification = showNotification;
 function initCardGlow() {
     const cardSelectors = '.service-card, .project-card, .testimonial-card, .pricing-card, .stat-card, .contact-item, .filter-btn, .qr-image, .file-upload, .admin-stat-card';
 
+    const clearAllGlows = () => {
+        document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
+    };
+
     // Mouse Events
     document.addEventListener('mouseover', (e) => {
         const card = e.target.closest(cardSelectors);
         if (card) {
-            // Remove from others just in case
-            document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
-            card.classList.add('glow-active');
+            if (!card.classList.contains('glow-active')) {
+                clearAllGlows();
+                card.classList.add('glow-active');
+            }
         }
     });
 
     document.addEventListener('mouseout', (e) => {
         const card = e.target.closest(cardSelectors);
         if (card) {
-            // Check if we are really leaving the card, not just moving into a child
             const related = e.relatedTarget;
             if (!related || !card.contains(related)) {
                 card.classList.remove('glow-active');
@@ -1053,31 +1057,45 @@ function initCardGlow() {
         }
     });
 
+    // Tap/Click to keep glow, but clear others
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest(cardSelectors);
+        if (card) {
+            clearAllGlows();
+            card.classList.add('glow-active');
+        } else {
+            clearAllGlows();
+        }
+    });
+
     // Touch events for mobile
     document.addEventListener('touchstart', (e) => {
         const card = e.target.closest(cardSelectors);
         if (card) {
-            // Remove from others first
-            document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
+            clearAllGlows();
             card.classList.add('glow-active');
         } else {
-            // If touching background, clear all glows
-            document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
+            clearAllGlows();
         }
     }, { passive: true });
 
-    // Ensure glow is removed if user touches background or moves away
     document.addEventListener('touchmove', (e) => {
         const touch = e.touches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
         const card = element ? element.closest(cardSelectors) : null;
 
-        if (!card) {
-            document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
+        if (card) {
+            if (!card.classList.contains('glow-active')) {
+                clearAllGlows();
+                card.classList.add('glow-active');
+            }
+        } else {
+            clearAllGlows();
         }
     }, { passive: true });
 
-    document.addEventListener('touchcancel', (e) => {
-        document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
+    // Ensure we clear on scroll or other interactions that move away
+    window.addEventListener('scroll', () => {
+        // Optional: clearAllGlows() if you want it to stop on scroll
     }, { passive: true });
 }
