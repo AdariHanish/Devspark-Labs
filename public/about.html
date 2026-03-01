@@ -17,159 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 
-    <style>
-        /* ── About Card Glow System ── */
-        .about-card {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass);
-            border-radius: 24px;
-            padding: 50px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(20px);
-            transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(220, 38, 38, 0.08) 0%, transparent 65%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
-        }
-
-        .about-card:hover {
-            border-color: rgba(220, 38, 38, 0.45);
-            box-shadow:
-                0 0 30px rgba(220, 38, 38, 0.18),
-                0 0 60px rgba(220, 38, 38, 0.08),
-                0 20px 60px rgba(0, 0, 0, 0.3);
-            transform: translateY(-4px);
-        }
-
-        .about-card:hover::before {
-            opacity: 1;
-        }
-
-        /* Small card variant (Mission/Vision 2-col) */
-        .about-card-sm {
-            background: var(--bg-glass);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(20px);
-            transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-card-sm:hover {
-            border-color: rgba(220, 38, 38, 0.45);
-            box-shadow:
-                0 0 25px rgba(220, 38, 38, 0.18),
-                0 0 50px rgba(220, 38, 38, 0.07),
-                0 16px 40px rgba(0, 0, 0, 0.25);
-            transform: translateY(-4px);
-        }
-
-        /* Icon glow */
-        .about-icon {
-            font-size: 3rem;
-            margin-bottom: 18px;
-            display: inline-block;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                filter 0.3s ease,
-                text-shadow 0.3s ease;
-        }
-
-        .about-feature-item:hover .about-icon {
-            transform: scale(1.25) translateY(-4px);
-            filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.7)) drop-shadow(0 0 24px rgba(255, 80, 80, 0.4));
-        }
-
-        .about-card-sm:hover .card-icon {
-            transform: scale(1.2) translateY(-2px);
-            filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.65)) drop-shadow(0 0 20px rgba(255, 80, 80, 0.35));
-        }
-
-        .card-icon {
-            font-size: 1.6rem;
-            display: inline-block;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                filter 0.3s ease;
-        }
-
-        /* Feature grid */
-        .about-feature-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .about-feature-item {
-            text-align: center;
-            padding: 28px 20px;
-            border: 1px solid var(--border-glass);
-            border-radius: 16px;
-            background: var(--bg-glass);
-            backdrop-filter: blur(10px);
-            cursor: default;
-            transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-        }
-
-        .about-feature-item:hover {
-            border-color: rgba(220, 38, 38, 0.4);
-            box-shadow:
-                0 0 20px rgba(220, 38, 38, 0.14),
-                0 8px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(-3px);
-        }
-
-        .about-feature-item h4 {
-            margin-bottom: 10px;
-            color: var(--text-primary);
-            font-size: 1.05rem;
-        }
-
-        .about-feature-item p {
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        .mission-vision-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .mission-vision-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .about-feature-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .about-card,
-            .about-card-sm {
-                padding: 28px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .about-feature-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -221,16 +68,16 @@
             <div class="hero-bg-gradient"></div>
         </div>
         <div class="particles-container"></div>
-        <div style="text-align: center; position: relative; z-index: 1;">
+        <div class="fluid-container text-center-mobile" style="position: relative; z-index: 1;">
             <span class="section-tag">🚀 About Us</span>
-            <h1 class="section-title" style="font-size: 3.5rem;">Who We <span class="highlight">Are</span></h1>
+            <h1 class="section-title">Who We <span class="highlight">Are</span></h1>
             <p class="section-description">Your trusted partner for academic project success</p>
         </div>
     </section>
 
     <!-- About Content -->
-    <section style="padding: 80px 50px;">
-        <div style="max-width: 1000px; margin: 0 auto;">
+    <section class="fluid-section">
+        <div class="fluid-container">
 
             <!-- Main About Card -->
             <div class="about-card reveal">
@@ -329,8 +176,8 @@
     </section>
 
     <!-- CTA Section -->
-    <section style="padding: 100px 50px; text-align: center; background: var(--bg-secondary);">
-        <div class="reveal">
+    <section class="fluid-section text-center-mobile" style="background: var(--bg-secondary);">
+        <div class="fluid-container reveal">
             <h2 class="section-title">Ready to Start Your <span class="highlight">Project?</span></h2>
             <p class="section-description" style="margin-bottom: 40px;">Let's build something amazing together!</p>
             <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
