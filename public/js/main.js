@@ -359,75 +359,17 @@ function initCursor() {
     animateCursor();
 
     // Hover effects
-    const hoverSelectors = 'a, button, .btn, input, textarea, select, .project-card, .service-card, .pricing-card, .testimonial-card, .filter-btn, .stat-card, .contact-item, .qr-image, .file-upload, label[for], h1, h2, h3, h4, h5, h6, p, span, li, img';
+    const hoverSelectors = 'a, button, .btn, input, textarea, select, .project-card, .service-card, .pricing-card, .testimonial-card, .filter-btn, .stat-card, .contact-item, .qr-image, .file-upload, label[for]';
 
     document.addEventListener('mouseover', (e) => {
         if (e.target.closest(hoverSelectors)) {
             cursor.classList.add('hovering');
             cursorGlow.classList.add('hovering');
-        } else {
-            cursor.classList.remove('hovering');
-            cursorGlow.classList.remove('hovering');
         }
     });
 
-    // Helper function to handle hover state updates based on screen coordinates
-    function updateHoverState(x, y) {
-        const el = document.elementFromPoint(x, y);
-        const targetElement = el ? el.closest(hoverSelectors) : null;
-
-        // Always iterate and clean up existing hover states
-        document.querySelectorAll('.hover-active').forEach(hovered => {
-            if (hovered !== targetElement) {
-                hovered.classList.remove('hover-active');
-            }
-        });
-
-        // FIX STICKY NATIVE HOVER ON SCROLL
-        try {
-            document.querySelectorAll(':hover').forEach(hovered => {
-                // If it's a structural element or parent of target, ignore it.
-                // Otherwise if it's stuck hovering, explicitly disable its interactivity to force reflow.
-                if (hovered !== targetElement &&
-                    (!targetElement || !hovered.contains(targetElement)) &&
-                    hovered.tagName !== 'BODY' &&
-                    hovered.tagName !== 'HTML') {
-
-                    hovered.classList.add('force-no-hover');
-                    setTimeout(() => {
-                        hovered.classList.remove('force-no-hover');
-                    }, 50);
-                }
-            });
-        } catch (e) { }
-
-        // Set hover state strictly for the current target
-        if (targetElement) {
-            cursor.classList.add('hovering');
-            cursorGlow.classList.add('hovering');
-            targetElement.classList.add('hover-active');
-        } else {
-            cursor.classList.remove('hovering');
-            cursorGlow.classList.remove('hovering');
-        }
-    }
-
-    // Apply strict screen coordinate hover mapping to Scroll
-    window.addEventListener('scroll', () => {
-        updateHoverState(mouseX, mouseY);
-    }, { passive: true });
-
-    // Apply strict screen coordinate hover mapping to MouseMove
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        updateHoverState(mouseX, mouseY);
-    }, { passive: true });
-
-    // Clean up completely when mouse leaves the document window
     document.addEventListener('mouseout', (e) => {
-        if (!e.relatedTarget) {
-            document.querySelectorAll('.hover-active').forEach(el => el.classList.remove('hover-active'));
+        if (e.target.closest(hoverSelectors)) {
             cursor.classList.remove('hovering');
             cursorGlow.classList.remove('hovering');
         }

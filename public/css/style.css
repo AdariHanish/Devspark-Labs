@@ -88,45 +88,6 @@ body {
     width: 100%;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-span,
-li,
-img {
-    transition: all 0.3s ease;
-}
-
-h1:hover,
-h2:hover,
-h3:hover,
-h4:hover,
-h5:hover,
-h6:hover,
-p:hover,
-li:hover,
-h1.hover-active,
-h2.hover-active,
-h3.hover-active,
-h4.hover-active,
-h5.hover-active,
-h6.hover-active,
-p.hover-active,
-li.hover-active {
-    text-shadow: 0 0 15px var(--accent-glow);
-    transform: translateY(-2px);
-}
-
-img:hover,
-img.hover-active {
-    transform: scale(1.02);
-    filter: drop-shadow(0 5px 15px var(--accent-glow));
-}
-
 /* ============ Noise Texture Overlay ============ */
 body::before {
     content: '';
