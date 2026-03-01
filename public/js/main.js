@@ -1094,8 +1094,26 @@ function initCardGlow() {
         }
     }, { passive: true });
 
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+    }, { passive: true });
+
     // Ensure we clear on scroll or other interactions that move away
     window.addEventListener('scroll', () => {
-        // Optional: clearAllGlows() if you want it to stop on scroll
+        const element = document.elementFromPoint(lastMouseX, lastMouseY);
+        const card = element ? element.closest(cardSelectors) : null;
+
+        if (card) {
+            if (!card.classList.contains('glow-active')) {
+                clearAllGlows();
+                card.classList.add('glow-active');
+            }
+        } else {
+            clearAllGlows();
+        }
     }, { passive: true });
 }
