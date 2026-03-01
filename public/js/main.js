@@ -1035,18 +1035,22 @@ function initCardGlow() {
     // Mouse Events
     document.addEventListener('mouseover', (e) => {
         const card = e.target.closest(cardSelectors);
-        if (card) card.classList.add('glow-active');
+        if (card) {
+            // Remove from others just in case
+            document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
+            card.classList.add('glow-active');
+        }
     });
 
     document.addEventListener('mouseout', (e) => {
         const card = e.target.closest(cardSelectors);
-        if (card) card.classList.remove('glow-active');
-    });
-
-    // Handle Clicks - Immediately remove glow when clicked/tapped
-    document.addEventListener('mousedown', (e) => {
-        const card = e.target.closest(cardSelectors);
-        if (card) card.classList.remove('glow-active');
+        if (card) {
+            // Check if we are really leaving the card, not just moving into a child
+            const related = e.relatedTarget;
+            if (!related || !card.contains(related)) {
+                card.classList.remove('glow-active');
+            }
+        }
     });
 
     // Touch events for mobile
@@ -1056,19 +1060,24 @@ function initCardGlow() {
             // Remove from others first
             document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
             card.classList.add('glow-active');
+        } else {
+            // If touching background, clear all glows
+            document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
         }
     }, { passive: true });
 
-    document.addEventListener('touchend', (e) => {
-        const card = e.target.closest(cardSelectors);
-        if (card) {
-            // Remove immediately on end to prevent "sticky" feeling
-            card.classList.remove('glow-active');
+    // Ensure glow is removed if user touches background or moves away
+    document.addEventListener('touchmove', (e) => {
+        const touch = e.touches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+        const card = element ? element.closest(cardSelectors) : null;
+
+        if (!card) {
+            document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
         }
     }, { passive: true });
 
     document.addEventListener('touchcancel', (e) => {
-        const card = e.target.closest(cardSelectors);
-        if (card) card.classList.remove('glow-active');
+        document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
     }, { passive: true });
 }
