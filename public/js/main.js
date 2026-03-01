@@ -1137,7 +1137,11 @@ function initCardGlow() {
     });
 
     // Touch events for mobile
+    let touchMoveActive = false;
+    let touchTimeout;
+
     document.addEventListener('touchstart', (e) => {
+        touchMoveActive = false;
         const card = e.target.closest(cardSelectors);
         if (card) {
             clearAllGlows();
@@ -1148,18 +1152,47 @@ function initCardGlow() {
     }, { passive: true });
 
     document.addEventListener('touchmove', (e) => {
-        const touch = e.touches[0];
-        const element = document.elementFromPoint(touch.clientX, touch.clientY);
-        const card = element ? element.closest(cardSelectors) : null;
+        touchMoveActive = true;
 
-        if (card) {
-            if (!card.classList.contains('glow-active')) {
+        // Throttle touchmove for performance
+        if (touchTimeout) return;
+
+        touchTimeout = setTimeout(() => {
+            const touch = e.touches[0];
+
+            // Temporarily hide custom cursor to prevent it from blocking elementFromPoint
+            const cursor = document.querySelector('.cursor');
+            const cursorGlow = document.querySelector('.cursor-glow');
+            if (cursor) cursor.style.display = 'none';
+            if (cursorGlow) cursorGlow.style.display = 'none';
+
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            const card = element ? element.closest(cardSelectors) : null;
+
+            // Restore custom cursor
+            if (cursor) cursor.style.display = '';
+            if (cursorGlow) cursorGlow.style.display = '';
+
+            if (card) {
+                if (!card.classList.contains('glow-active')) {
+                    clearAllGlows();
+                    card.classList.add('glow-active');
+                }
+            } else {
                 clearAllGlows();
-                card.classList.add('glow-active');
             }
+            touchTimeout = null;
+        }, 16); // ~60fps throttle
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+        if (!touchMoveActive) {
+            // It was a tap, let the click handler deal with the persistent glow
         } else {
-            clearAllGlows();
+            // It was a swipe, optionally clear glows if we want cards to reset after swipe finishes
+            // clearAllGlows(); 
         }
+        touchMoveActive = false;
     }, { passive: true });
 
     let lastMouseX = 0;
