@@ -2712,7 +2712,7 @@ body * {
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(8px);
-    z-index: 1000;
+    z-index: 100000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -3866,35 +3866,4 @@ textarea:-webkit-autofill {
 .about-icon {
     font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: 18px;
-}
-
-/* ============ Modal Z-Index Fix (Above Navbar) ============ */
-/* Navbar is z-index: 10000, so modals must be higher */
-
-.reviews-modal-overlay,
-.qr-modal,
-.admin-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 99999 !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    padding: clamp(15px, 3vw, 30px);
-    overflow-y: auto;
-}
-
-.reviews-modal-content,
-.qr-modal-content,
-.admin-modal-content {
-    position: relative;
-    z-index: 100000 !important;
-    max-height: 90vh;
-    overflow-y: auto;
 }
