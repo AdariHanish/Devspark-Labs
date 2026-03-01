@@ -1090,14 +1090,12 @@ body * {
     transition: opacity 0.3s ease;
 }
 
-.service-card:hover,
 .service-card.glow-active {
     transform: translateY(-10px) scale(1.02);
     border-color: var(--accent-primary);
     box-shadow: 0 20px 50px var(--card-glow);
 }
 
-.service-card:hover::before,
 .service-card.glow-active::before {
     opacity: 1;
 }
@@ -1209,7 +1207,6 @@ body * {
     z-index: 2;
 }
 
-.project-card:hover,
 .project-card.glow-active {
     transform: translateY(-10px);
     border-color: var(--accent-primary);
@@ -1378,7 +1375,6 @@ body * {
     flex-shrink: 0;
 }
 
-.testimonial-card:hover,
 .testimonial-card.glow-active {
     border-color: var(--accent-primary);
     box-shadow: 0 15px 40px var(--card-glow);
@@ -1497,14 +1493,12 @@ body * {
     box-shadow: 0 5px 20px var(--accent-glow);
 }
 
-.pricing-card:hover,
 .pricing-card.glow-active {
     transform: translateY(-10px);
     border-color: var(--accent-primary);
     box-shadow: 0 20px 50px var(--card-glow);
 }
 
-.pricing-card.popular:hover,
 .pricing-card.popular.glow-active {
     transform: scale(1.05) translateY(-10px);
 }

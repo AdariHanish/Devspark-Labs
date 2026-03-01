@@ -1032,7 +1032,7 @@ window.showNotification = showNotification;
 function initCardGlow() {
     const cardSelectors = '.service-card, .project-card, .testimonial-card, .pricing-card, .stat-card';
 
-    // Use event delegation for better performance and to handle dynamic cards
+    // Mouse Events
     document.addEventListener('mouseover', (e) => {
         const card = e.target.closest(cardSelectors);
         if (card) card.classList.add('glow-active');
@@ -1043,11 +1043,17 @@ function initCardGlow() {
         if (card) card.classList.remove('glow-active');
     });
 
+    // Handle Clicks - Immediately remove glow when clicked/tapped
+    document.addEventListener('mousedown', (e) => {
+        const card = e.target.closest(cardSelectors);
+        if (card) card.classList.remove('glow-active');
+    });
+
     // Touch events for mobile
     document.addEventListener('touchstart', (e) => {
         const card = e.target.closest(cardSelectors);
         if (card) {
-            // Remove from others first to ensure only one glows on touch
+            // Remove from others first
             document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
             card.classList.add('glow-active');
         }
@@ -1056,8 +1062,8 @@ function initCardGlow() {
     document.addEventListener('touchend', (e) => {
         const card = e.target.closest(cardSelectors);
         if (card) {
-            // Delay slightly to allow the user to see the glow before it vanishes
-            setTimeout(() => card.classList.remove('glow-active'), 150);
+            // Remove immediately on end to prevent "sticky" feeling
+            card.classList.remove('glow-active');
         }
     }, { passive: true });
 
