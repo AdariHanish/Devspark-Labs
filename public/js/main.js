@@ -664,7 +664,7 @@ function initProjectsFilter() {
 
                 if (shouldShow) {
                     card.style.display = 'block';
-                    card.style.animation = `fadeInUp 0.5s ease ${index * 0.05}s forwards`;
+                    card.style.animation = `fadeInUp 0.25s ease ${index * 0.05}s forwards`;
                 } else {
                     card.style.display = 'none';
                 }
@@ -1074,7 +1074,7 @@ function showNotification(message, type = 'info') {
 
     setTimeout(() => {
         if (notification.parentElement) {
-            notification.style.animation = 'slideOut 0.3s ease forwards';
+            notification.style.animation = 'slideOut 0.04s ease forwards';
             setTimeout(() => notification.remove(), 300);
         }
     }, 5000);
