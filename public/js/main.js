@@ -361,19 +361,25 @@ function initCursor() {
     // Hover effects
     const hoverSelectors = 'a, button, .btn, input, textarea, select, .project-card, .service-card, .pricing-card, .testimonial-card, .filter-btn, .stat-card, .contact-item, .qr-image, .file-upload, label[for]';
 
-    document.addEventListener('mouseover', (e) => {
-        if (e.target.closest(hoverSelectors)) {
+    function updateCursorHover(x, y) {
+        const el = document.elementFromPoint(x, y);
+        if (el && el.closest(hoverSelectors)) {
             cursor.classList.add('hovering');
             cursorGlow.classList.add('hovering');
-        }
-    });
-
-    document.addEventListener('mouseout', (e) => {
-        if (e.target.closest(hoverSelectors)) {
+        } else {
             cursor.classList.remove('hovering');
             cursorGlow.classList.remove('hovering');
         }
+    }
+
+    document.addEventListener('mousemove', (e) => {
+        updateCursorHover(e.clientX, e.clientY);
     });
+
+    // Scroll-aware: recalculate hover state when page scrolls
+    window.addEventListener('scroll', () => {
+        updateCursorHover(mouseX, mouseY);
+    }, { passive: true });
 }
 
 // ============ Theme Toggle ============
