@@ -298,11 +298,6 @@ function initLoader() {
 
 // ============ Custom Cursor ============
 function initCursor() {
-    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-        document.body.style.cursor = 'auto';
-        return;
-    }
-
     let cursor = document.querySelector('.cursor');
     let cursorGlow = document.querySelector('.cursor-glow');
 
@@ -318,10 +313,11 @@ function initCursor() {
         document.body.appendChild(cursorGlow);
     }
 
-    let mouseX = 0, mouseY = 0;
-    let cursorX = 0, cursorY = 0;
-    let isVisible = true;
+    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+    let cursorX = mouseX, cursorY = mouseY;
+    let isVisible = false;
 
+    // Mouse Events
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
@@ -344,6 +340,46 @@ function initCursor() {
         cursorGlow.style.opacity = '1';
         isVisible = true;
     });
+
+    // Touch Events for Mobile
+    document.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+            // Instantly snap to touch position
+            cursorX = mouseX;
+            cursorY = mouseY;
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+            cursorGlow.style.left = cursorX + 'px';
+            cursorGlow.style.top = cursorY + 'px';
+
+            cursor.style.opacity = '1';
+            cursorGlow.style.opacity = '1';
+            isVisible = true;
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            mouseX = e.touches[0].clientX;
+            mouseY = e.touches[0].clientY;
+
+            if (!isVisible) {
+                cursor.style.opacity = '1';
+                cursorGlow.style.opacity = '1';
+                isVisible = true;
+            }
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+        cursor.style.opacity = '0';
+        cursorGlow.style.opacity = '0';
+        isVisible = false;
+        cursor.classList.remove('hovering');
+        cursorGlow.classList.remove('hovering');
+    }, { passive: true });
 
     function animateCursor() {
         cursorX += (mouseX - cursorX) * 0.15;
@@ -374,6 +410,27 @@ function initCursor() {
             cursorGlow.classList.remove('hovering');
         }
     });
+
+    // Touch hover effects equivalent
+    document.addEventListener('touchstart', (e) => {
+        if (e.target.closest(hoverSelectors)) {
+            cursor.classList.add('hovering');
+            cursorGlow.classList.add('hovering');
+        }
+    }, { passive: true });
+
+    // Handle scrolling where mouseout doesn't fire
+    window.addEventListener('scroll', () => {
+        if (!isVisible) return;
+        const element = document.elementFromPoint(mouseX, mouseY);
+        if (element && element.closest(hoverSelectors)) {
+            cursor.classList.add('hovering');
+            cursorGlow.classList.add('hovering');
+        } else {
+            cursor.classList.remove('hovering');
+            cursorGlow.classList.remove('hovering');
+        }
+    }, { passive: true });
 }
 
 // ============ Theme Toggle ============
