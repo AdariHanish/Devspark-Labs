@@ -345,9 +345,6 @@ function initCursor() {
         isVisible = true;
     });
 
-    // Hover selectors — cursor enlarges over these
-    const hoverSelectors = 'a, button, .btn, input, textarea, select, .project-card, .service-card, .pricing-card, .testimonial-card, .filter-btn, .stat-card, .contact-item, .qr-image, .file-upload, label[for]';
-
     function animateCursor() {
         cursorX += (mouseX - cursorX) * 0.15;
         cursorY += (mouseY - cursorY) * 0.15;
@@ -357,19 +354,26 @@ function initCursor() {
         cursorGlow.style.left = cursorX + 'px';
         cursorGlow.style.top = cursorY + 'px';
 
-        // Re-check hover state EVERY frame — scroll-proof, theme-agnostic
-        const el = document.elementFromPoint(mouseX, mouseY);
-        if (el && el.closest(hoverSelectors)) {
-            cursor.classList.add('hovering');
-            cursorGlow.classList.add('hovering');
-        } else {
-            cursor.classList.remove('hovering');
-            cursorGlow.classList.remove('hovering');
-        }
-
         requestAnimationFrame(animateCursor);
     }
     animateCursor();
+
+    // Hover effects
+    const hoverSelectors = 'a, button, .btn, input, textarea, select, .project-card, .service-card, .pricing-card, .testimonial-card, .filter-btn, .stat-card, .contact-item, .qr-image, .file-upload, label[for]';
+
+    document.addEventListener('mouseover', (e) => {
+        if (e.target.closest(hoverSelectors)) {
+            cursor.classList.add('hovering');
+            cursorGlow.classList.add('hovering');
+        }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        if (e.target.closest(hoverSelectors)) {
+            cursor.classList.remove('hovering');
+            cursorGlow.classList.remove('hovering');
+        }
+    });
 }
 
 // ============ Theme Toggle ============
