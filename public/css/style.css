@@ -1160,7 +1160,7 @@ body * {
     backdrop-filter: blur(10px);
 }
 
-.filter-btn:hover {
+.filter-btn.glow-active {
     border-color: var(--accent-primary);
     color: var(--text-primary);
     box-shadow: 0 5px 20px var(--card-glow);
@@ -1650,7 +1650,7 @@ body * {
     color: inherit;
 }
 
-.contact-item:hover {
+.contact-item.glow-active {
     border-color: var(--accent-primary);
     transform: translateX(8px);
     box-shadow: 0 10px 30px var(--card-glow);
@@ -1937,12 +1937,12 @@ body * {
     transition: opacity 0.3s ease;
 }
 
-.qr-image:hover {
+.qr-image.glow-active {
     transform: scale(1.05);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
-.qr-image:hover::after {
+.qr-image.glow-active::after {
     opacity: 1;
 }
 
@@ -1980,7 +1980,7 @@ body * {
     overflow: hidden;
 }
 
-.file-upload:hover {
+.file-upload.glow-active {
     border-color: var(--accent-primary);
     background: rgba(220, 38, 38, 0.03);
 }
@@ -2491,7 +2491,7 @@ body * {
     transition: all 0.3s ease;
 }
 
-.admin-stat-card:hover {
+.admin-stat-card.glow-active {
     border-color: var(--accent-primary);
     transform: translateY(-5px);
     box-shadow: 0 15px 40px var(--card-glow);

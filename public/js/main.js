@@ -1030,7 +1030,7 @@ window.showNotification = showNotification;
 
 // ============ Card Glow Interaction - Cross Device ============
 function initCardGlow() {
-    const cardSelectors = '.service-card, .project-card, .testimonial-card, .pricing-card, .stat-card';
+    const cardSelectors = '.service-card, .project-card, .testimonial-card, .pricing-card, .stat-card, .contact-item, .filter-btn, .qr-image, .file-upload, .admin-stat-card';
 
     // Mouse Events
     document.addEventListener('mouseover', (e) => {
