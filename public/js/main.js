@@ -317,6 +317,9 @@ function initCursor() {
     let cursorX = mouseX, cursorY = mouseY;
     let isVisible = false;
 
+    // Hover effects selectors
+    const hoverSelectors = 'a, button, .btn, input, textarea, select, .project-card, .service-card, .pricing-card, .testimonial-card, .filter-btn, .stat-card, .contact-item, .qr-image, .file-upload, label[for]';
+
     // Mouse Events
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
@@ -370,6 +373,16 @@ function initCursor() {
                 cursorGlow.style.opacity = '1';
                 isVisible = true;
             }
+
+            // Re-evaluate hover state while dragging finger
+            const element = document.elementFromPoint(mouseX, mouseY);
+            if (element && element.closest(hoverSelectors)) {
+                cursor.classList.add('hovering');
+                cursorGlow.classList.add('hovering');
+            } else {
+                cursor.classList.remove('hovering');
+                cursorGlow.classList.remove('hovering');
+            }
         }
     }, { passive: true });
 
@@ -394,9 +407,7 @@ function initCursor() {
     }
     animateCursor();
 
-    // Hover effects
-    const hoverSelectors = 'a, button, .btn, input, textarea, select, .project-card, .service-card, .pricing-card, .testimonial-card, .filter-btn, .stat-card, .contact-item, .qr-image, .file-upload, label[for]';
-
+    // Mouse Hover effects
     document.addEventListener('mouseover', (e) => {
         if (e.target.closest(hoverSelectors)) {
             cursor.classList.add('hovering');
