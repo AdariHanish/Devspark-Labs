@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     initNavbar();
     initMobileMenu();
     initParticles();
+    initCardGlow();
 
     // Start background init
     initCursor();
@@ -1026,3 +1027,42 @@ document.head.appendChild(styleSheet);
 
 // Global access
 window.showNotification = showNotification;
+
+// ============ Card Glow Interaction - Cross Device ============
+function initCardGlow() {
+    const cardSelectors = '.service-card, .project-card, .testimonial-card, .pricing-card, .stat-card';
+
+    // Use event delegation for better performance and to handle dynamic cards
+    document.addEventListener('mouseover', (e) => {
+        const card = e.target.closest(cardSelectors);
+        if (card) card.classList.add('glow-active');
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        const card = e.target.closest(cardSelectors);
+        if (card) card.classList.remove('glow-active');
+    });
+
+    // Touch events for mobile
+    document.addEventListener('touchstart', (e) => {
+        const card = e.target.closest(cardSelectors);
+        if (card) {
+            // Remove from others first to ensure only one glows on touch
+            document.querySelectorAll('.glow-active').forEach(c => c.classList.remove('glow-active'));
+            card.classList.add('glow-active');
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+        const card = e.target.closest(cardSelectors);
+        if (card) {
+            // Delay slightly to allow the user to see the glow before it vanishes
+            setTimeout(() => card.classList.remove('glow-active'), 150);
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchcancel', (e) => {
+        const card = e.target.closest(cardSelectors);
+        if (card) card.classList.remove('glow-active');
+    }, { passive: true });
+}
